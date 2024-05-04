@@ -3,11 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
-    <h1>hello,world!</h1>
-    <div>this "website" is still in progress,so there is nothing for now.</div>
+    <title>Listar Arquivos e Diretórios</title>
 </head>
 <body>
-    
+    <h1>Lista de Arquivos e Diretórios</h1>
+    <ul>
+        <?php
+        // Diretório que será listado
+        $diretorio = '.';
+        
+        // Verifica se o diretório existe
+        if (is_dir($diretorio)) {
+            // Abre o diretório
+            if ($handle = opendir($diretorio)) {
+                // Loop através dos arquivos e diretórios
+                while (($item = readdir($handle)) !== false) {
+                    // Ignora os diretórios '.' e '..'
+                    if ($item != "." && $item != "..") {
+                        // Verifica se é um diretório
+                        if (is_dir($diretorio . '/' . $item)) {
+                            echo "<li><strong>Diretório:</strong> $item</li>";
+                        } else {
+                            echo "<li><strong>Arquivo:</strong> $item</li>";
+                        }
+                    }
+                }
+                // Fecha o manipulador do diretório
+                closedir($handle);
+            }
+        } else {
+            echo "<p>O diretório $diretorio não existe.</p>";
+        }
+        ?>
+    </ul>
 </body>
 </html>
